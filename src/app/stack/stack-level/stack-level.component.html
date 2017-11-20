@@ -1,165 +1,268 @@
 <div class="stack-level-information">
-    <div class="summary-inshort">
-        <div class="stat-container security-issues-stat">
-            <div class="stat-box">
-                <h3>
-                    <span>Security Alert</span>
-                </h3>
-                <div class="stat-content">
-                    <div *ngIf="securityInfo" class="col-xs-12">
-                        <div class="cvss-id">
-                            {{securityInfo.cve && securityInfo.cve.CVE}}
-                            <i class="{{securityInfo.iconClass}}" 
-                            data-toggle="tooltip" data-placement="top" 
-                            title="CVSS: Score to measure the impact of security vulnerability. In a scale from 0.0-10.0, vulnerabilities less than 7.0 are considered medium impact and more than or equal to 7.0 are considered high impact ones."></i>
-                        </div>
-                        <div class="row cvss-data">
-                            <div class="col-xs-12">
-                                <span class="cvss-score">{{securityInfo.cve && securityInfo.cve.CVSS}}</span>
-                                <span class="cvss-score-label"><span class="label-1">CVSS Score</span></span>
-                                <span class="cvss-indication"><b>{{securityInfo.cve && securityInfo.cve.CVSS}} out of</b> 10</span>
-                            </div>
-                        </div>
-                        <div class="progress">
-                            <!--added inline style here to handle the dynamic value of cvss score for the progress bar-->
-                            <div class="progress-bar" role="progressbar"
-                            [ngStyle]="{'width': securityInfo.percentage +'%'}"
-                            [ngClass]="securityInfo.displayClass"
-                            data-toggle="tooltip" data-placement="top" 
-                            title="{{securityInfo.cve && securityInfo.cve.CVSS}} out of 10">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="center-text" *ngIf="!securityInfo">No CVEs</div>
-                </div>
-            </div>
+    <div class="row summary-inshort">
+
+        <div class="col-md-3 ">
+                <!-- <div class="stat-box">
+            <h3>
+            <span>Package Details</span>
+            </h3>
+            <div class="stat-content package-details"> -->
+           <div *ngIf="!packageDetail" >
+               <!--<div >-->
+               <div class="card-pf card-pf-accented card-pf-aggregate-status">
+                   <h2 class="card-pf-title">
+                       <a href="#"><span class="fa fa-cube"></span><span class="card-pf-aggregate-status-count">Package Details</span></a>
+                   </h2>
+                   <div class="card-pf-body">
+                       <div class="stat-content package-details">
+                           <p>
+                           <span class="total"><a href="#">{{(userStack && userStack.analyzed_dependencies && userStack.analyzed_dependencies.length) + (userStack && userStack.unknown_dependencies && userStack.unknown_dependencies.length)}}</a></span>
+                           <span>Total</span>
+                           </p>
+                           <p class="details">
+                           <span class="card-pf-aggregate-status-notification"><a href="#"><span class="pficon pficon-ok"></span>{{userStack && userStack.analyzed_dependencies && userStack.analyzed_dependencies.length}}</a>Analysed Packages</span>
+                           <span class="card-pf-aggregate-status-notification"><a href="#"><span class="pficon pficon-ok"></span>{{userStack && userStack.unknown_dependencies && userStack.unknown_dependencies.length}}</a>Unknown Packages</span>
+                           </p>
+                       </div>
+                   </div>
+               </div>
+               <!--</div>-->
+               <div class="center-text" *ngIf="packageDetail" >No packages to display</div>
+           </div>
+           <!--</div>
+         </div>-->
         </div>
-        <div class="stat-container outlier-stat">
-            <div class="stat-box">
-                <h3>
-                    <span>Usage</span>
-                </h3>
-                <div class="stat-content usage-outlier">
-                    <div class="metric-container">
-                        <div class="metric-desc">
-                            Components that aren't commonly used in your stack
-                        </div>
-                        <div class="metric">
-                            <span>{{stackLevelOutliers && stackLevelOutliers.usage && stackLevelOutliers.usage.length}}</span>
-                        </div>
-                    </div>
+        <div class="col-md-3 ">
+             <!--<div class="stat-box">
+            <h3>
+            <span>Security Alert</span>
+            </h3>
+            <div class="stat-content">-->
+           <div *ngIf="securityInfo">
+               <!--<div>-->
+               <div class="card-pf card-pf-accented card-pf-aggregate-status">
+                   <h2 class="card-pf-title">
+                       <a href="#"><span class="fa fa-shield"></span><span class="card-pf-aggregate-status-count">Security Alert</span></a>
+                   </h2>
+                   <div class="card-pf-body">
+                       <div class="stat-content security">
+                           <p>
+                            <span class="total"><a href="#">04</a></span>
+                            <span>Total</span>
+                           </p>
+                           <p class="details">
+                            <span class="card-pf-aggregate-status-notification"><a href="#"><span class="fa fa-shield"></span>02</a> Critical Issues</span>
+                            <span class="card-pf-aggregate-status-notification"><a href="#"><span class="fa fa-shield"></span>02</a>Important Issues</span>
+                           </p>
+                       </div>
+                   <!--</div>
+           </div>-->
+				<div class="cvss-id">
+					{{securityInfo.cve && securityInfo.cve.CVE}}
+					<i class="{{securityInfo.iconClass}}" 
+				data-toggle="tooltip" data-placement="top" 
+					title="CVSS: Score to measure the impact of security vulnerability. In a scale from 0.0-10.0, vulnerabilities less than 7.0 are considered medium impact and more than or equal to 7.0 are considered high impact ones."></i>
+				</div>
+				<div class="row cvss-data">
+					<div class="col-xs-12">
+						<span class="cvss-score card-pf-aggregate-status-notification">{{securityInfo.cve && securityInfo.cve.CVSS}}</span>
+						<span class="cvss-score-label card-pf-aggregate-status-notification"><span class="label-1">CVSS Score</span></span>
+						<span class="cvss-indication card-pf-aggregate-status-notification"><b>{{securityInfo.cve && securityInfo.cve.CVSS}} out of</b> 10</span>
+					</div>
                 </div>
-            </div>
-        </div>
-        <div class="stat-container stack-license-stat">
-            <div class="stat-box">
-                <h3>
-                    <span>Licenses</span>
-                </h3>
-                <div class="stat-content license-area" *ngIf="licenseAnalysis && licenseAnalysis.status.toLowerCase() !== 'failure' && licenseAnalysis && licenseAnalysis.status.toLowerCase() !== 'nolicensedata'">
-                    <div class="stack-license-text flex-3" *ngIf="licenseAnalysis.status.toLowerCase() === 'successful'">
-                        <div class="metric-desc">
-                            Possible Stack License
-                        </div>
-                        <div class="metric">
-                            <span>{{licenseAnalysis.stackLicenseText}}</span>
-                        </div>
-                    </div>
-                    <div class="outlier-license flex-3" *ngIf="licenseAnalysis && licenseAnalysis.status.toLowerCase() === 'successful'">
-                        <div class="metric-desc">
-                            Out of date
-                        </div>
-                        <div class="metric">
-                            <span>{{licenseAnalysis.licenseOutliersCount}}</span>
-                        </div>
-                    </div>
-                    <div class="conflict-license flex-1" *ngIf="licenseAnalysis && licenseAnalysis.status.toLowerCase() === 'conflict'">
-                        <div class="metric-desc">
-                            Conflict <strong>between</strong> two Components
-                        </div>
-                        <div class="metric">
-                            <span>
-                                {{licenseAnalysis.licenseStackConflictsCount}}
-                            </span>
-                        </div>
-                    </div>
-                    <div class="conflict-license-direction-icon flex-1" *ngIf="licenseAnalysis && licenseAnalysis.status.toLowerCase() === 'conflict'">
-                        <span class="fa fa-arrow-right"></span>
-                    </div>
-                    <div class="conflict-license-container flex-4" 
-                        *ngIf="licenseAnalysis.status.toLowerCase() === 'conflict'" [popover]="popLicenseTemplate" 
-                        popoverTitle="All Stack License Conflicts" 
-                        placement="left"
-                        containerClass="conflict-license-container"
-                        triggers="mouseenter:mouseleave">
-                        <div class="packages flex-2" *ngIf="licenseAnalysis && licenseAnalysis.status.toLowerCase() === 'conflict'">
-                            <div *ngFor="let conflict of licenseAnalysis.licenseConflictsPartial" class="conflict-group">
-                                <div><span>{{conflict.package1}}</span><span class="fa fa-arrow-right"></span></div>
-                                <div><span>{{conflict.package2}}</span><span class="fa fa-arrow-right"></span></div>
-                            </div>
-                            <div class="ellipsis-icon" *ngIf="licenseAnalysis && licenseAnalysis.licenseConflictsPartial.length > 1"><span class="fa fa-ellipsis-v"></span></div>
-                        </div>
-                        <div class="licenses flex-2" *ngIf="licenseAnalysis && licenseAnalysis.status.toLowerCase() === 'conflict'">
-                            <div *ngFor="let conflict of licenseAnalysis.licenseConflictsPartial" class="conflict-group">
-                                <div><span>{{conflict.license1}}</span></div>
-                                <div><span>{{conflict.license2}}</span></div>
-                            </div>
-                        </div>
-                        <ng-template #popLicenseTemplate>
-                            <div class="license-template flex-4" *ngIf="licenseAnalysis && licenseAnalysis.status.toLowerCase() === 'conflict'">
-                                <div class="packages flex-2" *ngIf="licenseAnalysis.status.toLowerCase() === 'conflict'">
-                                    <div *ngFor="let conflict of licenseAnalysis.licenseConflictsFull" class="conflict-group">
-                                        <div><span>{{conflict.package1}}</span><span class="fa fa-arrow-right"></span></div>
-                                        <div><span>{{conflict.package2}}</span><span class="fa fa-arrow-right"></span></div>
-                                    </div>
-                                </div>
-                                <div class="licenses flex-2" *ngIf="licenseAnalysis && licenseAnalysis.status.toLowerCase() === 'conflict'">
-                                    <div *ngFor="let conflict of licenseAnalysis.licenseConflictsFull" class="conflict-group">
-                                        <div><span>{{conflict.license1}}</span></div>
-                                        <div><span>{{conflict.license2}}</span></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </ng-template>
-                    </div>
-                    <div class="unknown-license flex-2" *ngIf="licenseAnalysis && licenseAnalysis.status.toLowerCase() === 'unknown'">
-                        <div class="metric-desc">
-                            Status
-                        </div>
-                        <div class="metric">
-                            <span>
-                                {{licenseAnalysis.status}}
-                            </span>
-                        </div>
-                    </div>
-                    <div class="unknown-license flex-1" *ngIf="licenseAnalysis && licenseAnalysis.status.toLowerCase() === 'unknown'">
-                        <div class="metric-desc">
-                            Unknown
-                        </div>
-                        <div class="metric">
-                            <span>
-                                {{licenseAnalysis.licenseReallyUnknownCount}}
-                            </span>
-                        </div>
-                    </div>
-                    <div class="unknown-license flex-3" *ngIf="licenseAnalysis && licenseAnalysis.status.toLowerCase() === 'unknown'">
-                        <div class="metric-desc">
-                            Conflict <strong>within</strong> a Component
-                        </div>
-                        <div class="metric">
-                            <span>
-                                {{licenseAnalysis.licenseComponentConflictsCount}}
-                            </span>
-                        </div>
-                    </div>
+                abc{{securityInfo}}
+				<!--<div class="progress">-->
+				<!--added inline style here to handle the dynamic value of cvss score for the progress bar-->
+                <!--  --> 
+                <div class="progress-bar" role="progressbar"
+								[ngStyle]="{'width': securityInfo.percentage +'%'}"
+								[ngClass]="securityInfo.displayClass"
+								data-toggle="tooltip" data-placement="top" 
+						title="{{securityInfo.cve && securityInfo.cve.CVSS}} out of 10">
+				</div>
+				</div>
+				</div>
+           </div>
+           <div *ngIf="!securityInfo">
+               <div>
+                   <div class="card-pf card-pf-accented card-pf-aggregate-status">
+                       <h2 class="card-pf-title">
+                           <a href="#"><span class="fa fa-shield"></span><span class="card-pf-aggregate-status-count">Security Alert</span></a>
+                       </h2>
+                       <div class="card-pf-body">
+                           <p class="stat-content">
+                            <span class="card-pf-aggregate-status-notification"><a href="#"><span class="pficon pficon-error-circle-o"></span></a><br>No CVEs</span>
+                           </p>
+                       </div>
+                   </div>
+               </div>
+           </div>
+           <!--</div>
+         </div>
+         </div>-->
+    </div>
+    <div class="col-md-3 ">
+        <!--<div class="stat-box">
+      <h3>
+      <span>Usage</span>
+      </h3>
+      <div class="stat-content usage-outlier">-->
+          <div class="metric-container">
+              <!--<div class="metric-desc">
+         Components that aren't commonly used in your stack
+         </div>-->
+         <div class="card-pf card-pf-accented card-pf-aggregate-status">
+             <h2 class="card-pf-title">
+                 <a href="#"><span class="fa pficon-zone"></span><span class="card-pf-aggregate-status-count">Usage</span></a>
+             </h2>
+             <div class="card-pf-body">
+                 <div class="stat-content metric-desc">
+                     <p>
+                       <span class="total"><a href="#">{{stackLevelOutliers && stackLevelOutliers.usage && stackLevelOutliers.usage.length}}</a></span>
+                       <span>Total</span>
+                     </p>
+                     <p class="details">
+                       <span class="card-pf-aggregate-status-notification"><a href="#"><span class="fa "></span></a> Rarely used packages in your application</span>                     </p>
+                 </div>
+             </div>
+             <!-- <div class="metric">
+                <span></span>
+             </div> -->
+         </div>
+          </div>
+          <!--</div>
+        </div>-->
+    </div>
+
+    <div class="col-md-3 ">
+        <!--<div class="stat-box">
+      <h3>
+      <span>Licenses</span>
+      </h3>
+      <div>-->
+          <div class="card-pf card-pf-accented card-pf-aggregate-status">
+              <h2 class="card-pf-title">
+                  <a href="#"><span class="fa pficon-on-running"></span><span class="card-pf-aggregate-status-count">Licenses</span></a>
+              </h2>
+              <div class="card-pf-body">
+                <div class="stat-content">   
+                  <p>
+                   <span class="total"><a href="#">{{licenseAnalysis.stackLicenseText}}</a>6</span><span>Total</span>
+                  </p>
+                  <p class="details">
+                   <span class="card-pf-aggregate-status-notification"><a href="#"><span class="pficon-on-running"></span>02</a>Unknown Licenses</span>
+                   <span class="card-pf-aggregate-status-notification"><a href="#"><span class="pficon-on-running"></span>02</a>Conflict Licenses</span>
+                   <span class="card-pf-aggregate-status-notification"><a href="#"><span class="pficon-on-running"></span>02</a>Outdated Licenses</span>
+                  </p>
                 </div>
-                <div class="stat-content center-text" *ngIf="licenseAnalysis && licenseAnalysis.status && licenseAnalysis.status.toLowerCase() === 'failure'">
-                        Could not get license data for this stack. This may be due to some failure.
-                </div>
-                <div class="stat-content center-text" *ngIf="licenseAnalysis && licenseAnalysis.status && licenseAnalysis.status.toLowerCase() === 'nolicensedata'">
-                        No license data available.
-                </div>
-            </div>
-        </div>
+              </div>
+              <!--</div>-->
+      </div>
+      <div class="stat-content license-area" *ngIf="licenseAnalysis && licenseAnalysis.status.toLowerCase() !== 'failure' && licenseAnalysis && licenseAnalysis.status.toLowerCase() !== 'nolicensedata'">
+          <div class="stack-license-text flex-3" *ngIf="licenseAnalysis.status.toLowerCase() !== 'successful'">
+              <div class="metric-desc">
+                  <!-- Possible Stack License-->
+
+              </div>
+              <div class="metric">
+                  <span>{{licenseAnalysis.stackLicenseText}}</span>
+              </div>
+          </div>
+          <div class="outlier-license flex-3" *ngIf="licenseAnalysis && licenseAnalysis.status.toLowerCase() === 'successful'">
+              <div class="metric-desc">
+                  Out of date
+              </div>
+              <div class="metric">
+                  <span>{{licenseAnalysis.licenseOutliersCount}}</span>
+              </div>
+          </div>
+          <div class="conflict-license flex-1" *ngIf="licenseAnalysis && licenseAnalysis.status.toLowerCase() === 'conflict'">
+              <div class="metric-desc">
+                  Conflict <strong>between</strong> two Components
+              </div>
+              <div class="metric">
+                  <span>
+                      {{licenseAnalysis.licenseStackConflictsCount}}
+                  </span>
+              </div>
+          </div>
+          <div class="conflict-license-direction-icon flex-1" *ngIf="licenseAnalysis && licenseAnalysis.status.toLowerCase() === 'conflict'">
+              <span class="fa fa-arrow-right"></span>
+          </div>
+          <div class="conflict-license-container flex-4" 
+     *ngIf="licenseAnalysis.status.toLowerCase() === 'conflict'" [popover]="popLicenseTemplate" 
+            popoverTitle="All Stack License Conflicts" 
+        placement="left"
+        containerClass="conflict-license-container"
+        triggers="mouseenter:mouseleave">
+              <div class="packages flex-2" *ngIf="licenseAnalysis && licenseAnalysis.status.toLowerCase() === 'conflict'">
+                  <div *ngFor="let conflict of licenseAnalysis.licenseConflictsPartial" class="conflict-group">
+                      <div><span>{{conflict.package1}}</span><span class="fa fa-arrow-right"></span></div>
+                      <div><span>{{conflict.package2}}</span><span class="fa fa-arrow-right"></span></div>
+                  </div>
+                  <div class="ellipsis-icon" *ngIf="licenseAnalysis && licenseAnalysis.licenseConflictsPartial.length > 1"><span class="fa fa-ellipsis-v"></span></div>
+              </div>
+              <div class="licenses flex-2" *ngIf="licenseAnalysis && licenseAnalysis.status.toLowerCase() === 'conflict'">
+                  <div *ngFor="let conflict of licenseAnalysis.licenseConflictsPartial" class="conflict-group">
+                      <div><span>{{conflict.license1}}</span></div>
+                      <div><span>{{conflict.license2}}</span></div>
+                  </div>
+              </div>
+              <ng-template #popLicenseTemplate>
+                  <div class="license-template flex-4" *ngIf="licenseAnalysis && licenseAnalysis.status.toLowerCase() === 'conflict'">
+                      <div class="packages flex-2" *ngIf="licenseAnalysis.status.toLowerCase() === 'conflict'">
+                          <div *ngFor="let conflict of licenseAnalysis.licenseConflictsFull" class="conflict-group">
+                              <div><span>{{conflict.package1}}</span><span class="fa fa-arrow-right"></span></div>
+                              <div><span>{{conflict.package2}}</span><span class="fa fa-arrow-right"></span></div>
+                          </div>
+                      </div>
+                      <div class="licenses flex-2" *ngIf="licenseAnalysis && licenseAnalysis.status.toLowerCase() === 'conflict'">
+                          <div *ngFor="let conflict of licenseAnalysis.licenseConflictsFull" class="conflict-group">
+                              <div><span>{{conflict.license1}}</span></div>
+                              <div><span>{{conflict.license2}}</span></div>
+                          </div>
+                      </div>
+                  </div>
+              </ng-template>
+          </div>
+          <div class="unknown-license flex-2" *ngIf="licenseAnalysis && licenseAnalysis.status.toLowerCase() === 'unknown'">
+              <div class="metric-desc">
+                  Status
+              </div>
+              <div class="metric">
+                  <span>
+                      {{licenseAnalysis.status}}
+                  </span>
+              </div>
+          </div>
+          <div class="unknown-license flex-1" *ngIf="licenseAnalysis && licenseAnalysis.status.toLowerCase() === 'unknown'">
+              <div class="metric-desc">
+                  Unknown
+              </div>
+              <div class="metric">
+                  <span>
+                      {{licenseAnalysis.licenseReallyUnknownCount}}
+                  </span>
+              </div>
+          </div>
+          <div class="unknown-license flex-3" *ngIf="licenseAnalysis && licenseAnalysis.status.toLowerCase() === 'unknown'">
+              <div class="metric-desc">
+                  Conflict <strong>within</strong> a Component
+              </div>
+              <div class="metric">
+                  <span>
+                      {{licenseAnalysis.licenseComponentConflictsCount}}
+                  </span>
+              </div>
+          </div>
+          <div class="stat-content center-text" *ngIf="licenseAnalysis && licenseAnalysis.status && licenseAnalysis.status.toLowerCase() === 'failure'">
+              Could not get license data for this stack. This may be due to some failure.
+          </div>
+          <div class="stat-content center-text" *ngIf="licenseAnalysis && licenseAnalysis.status && licenseAnalysis.status.toLowerCase() === 'nolicensedata'">
+              No license data available.
+          </div>
+      </div>
+      <!--</div>-->
+    </div>
     </div>
 </div>

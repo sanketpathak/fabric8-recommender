@@ -42,12 +42,29 @@
       margin: 0 auto;
     }
   }
-  .accordion-custom { cursor: pointer; }
+  .accordion-custom {
+    cursor: pointer;
+    background: #000;
+    color: #fff;
+  }
   .card.accordion-custom .card-header {
-    background: #6fc0f9;
+    // background: #6fc0f9;
     color: @color-pf-white;
     cursor: pointer;
     .accordion-heading { float: left; }
+
+    .accordion-heading1 {
+      background-color: #0a0a0a;
+      color: @color-pf-white;
+      float: left;
+    }
+
+    .accordion-sub-heading1 {
+      float: right;
+      background-color: #0a0a0a;
+      color: @color-pf-white;
+    }
+
     .accordion-sub-heading {
       float: right;
       color: @color-pf-black;

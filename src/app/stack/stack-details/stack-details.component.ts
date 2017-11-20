@@ -190,6 +190,7 @@ export class StackDetailsComponent implements OnChanges {
                 if (this.totalManifests > 0) {
                     this.userStackInformationArray = result.map((r) => r.user_stack_info);
                     result.forEach((r, index) => {
+                        debugger;
                         this.tabs.push({
                             title: r.manifest_file_path,
                             content: r,

@@ -338,18 +338,26 @@ export class ComponentLevelComponent implements OnChanges {
             let dependency: any, eachOne: ComponentInformationModel;
             this.headers = [
                 {
+                    name: ' ',
+                    class: 'small',
+                    order: 0
+                }, {
+                    name: 'Status',
+                    class: 'small',
+                    order: 1
+                }, {
                     name: 'Package name',
                     class: 'medium',
-                    order: 1
+                    order: 2
                 }, {
                     name: 'Current Version',
                     class: 'small',
-                    order: 2
-                }, {
+                    order: 3
+                }, /*{
                     name: 'Recommended Version',
                     class: 'small',
                     order: 3
-                }, {
+                },*/ {
                     name: 'Latest Version',
                     class: 'small',
                     order: 4
@@ -357,15 +365,23 @@ export class ComponentLevelComponent implements OnChanges {
                     name: 'Security Issue',
                     class: 'small',
                     order: 5
-                }, {
+                }, /*{
                     name: 'License',
                     class: 'medium',
                     order: 6
+                },*/ {
+                    name: 'OSIO Usage Outlier',
+                    class: 'small',
+                    order: 6
                 }, {
-                    name: 'OSIO Usage',
+                    name: 'Liscense Issues',
                     class: 'small',
                     order: 7
-                }, {
+                },{
+                    name: 'Liscenses',
+                    class: 'medium',
+                    order: 8
+                }, /* {
                    name: 'Github Statistics',
                    class: 'small',
                    order: 8
@@ -373,14 +389,18 @@ export class ComponentLevelComponent implements OnChanges {
                     name: 'Github Dependants',
                     class: 'large',
                     order: 9
+                }, */{
+                    name: 'Top 10 Dependencies',
+                    class: 'medium',
+                    order: 9
                 }, {
                     name: 'Categories',
                     class: 'medium',
                     order: 10
-                }, {
+                },/* {
                      name: 'Action',
                      class: 'small'
-                 }
+                 }*/
             ];
 
             if (this.isCompanion) {

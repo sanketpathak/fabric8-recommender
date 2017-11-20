@@ -55,7 +55,7 @@ export class StackLevelComponent {
         let dependencies: Array<ComponentInformationModel> = tab.dependencies;
         let security: Array<any> = [];
         let temp: Array<any> = [];
-
+        debugger;
         dependencies.forEach((dependency) => {
             security = dependency.security;
             if (security && security.length > 0) {

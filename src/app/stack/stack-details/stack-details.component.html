@@ -1,6 +1,6 @@
 <div class="stack-report">
   <a class="stack-reports-btn" (click)="showStackModal($event)">{{displayName}}</a>
-  <modal #stackModule title="Report title on Application - {{appName}}, Build #{{buildNumber}}" modalClass="modal-lg modal-fullscreen modal-width-class" (onClose)="handleModalClose();" (onOpen)="init();">
+  <modal #stackModule title="Stack report for selected  - {{appName}}, pipeline/Build #{{buildNumber}}" modalClass="modal-lg modal-fullscreen modal-width-class" (onClose)="handleModalClose();" (onOpen)="init();">
     <modal-header>
         {{modalHeader}}
     </modal-header>
@@ -12,12 +12,23 @@
                 (select)="tabSelection(tabz)"
                 (removed)="removeTabHandler(tabz)"
                 [customClass]="tabz.active ? 'active-menu-item' : 'inactive-menu'">
+               
                 <accordion>
-                  <accordion-group
+                    <accordion-group
+                    [isOpen]="true"
+                    [panelClass]="customClass1"
+                    [isDisabled]="true">
+                    <div class="accordion-heading-1" accordion-heading>
+                        Stack summary
+                      </div>
+                      <stack-level-information (changeFilter)="handleChangeFilter($event)" [outliers]="stackLevelOutliers" [userStack]="tabz && tabz.content && tabz.content.user_stack_info"></stack-level-information>
+                    </accordion-group>  
+                      
+                  <!--<accordion-group
                       [isOpen]="true"
                       [panelClass]="customClass"
                       [isDisabled]="true">
-                        <div accordion-heading1>
+                        <div accordion-heading>
                           <div class="accordion-heading1" accordion-heading1>
                             Stack report
                           </div>
@@ -26,11 +37,11 @@
                           </div>
                         </div>
                         <stack-level-information (changeFilter)="handleChangeFilter($event)" [outliers]="stackLevelOutliers" [userStack]="tabz && tabz.content && tabz.content.user_stack_info"></stack-level-information>
-                  </accordion-group>
+                  </accordion-group> -->
                   <accordion-group #grouped [isOpen]="true" [panelClass]="customClass">
                     <div accordion-heading>
                       <div class="accordion-heading" accordion-heading>
-                        Detail analysis of your stack components
+                        Components with suggested alternative
                       </div>
                       <i class="pull-right accordion-indicator float-xs-right glyphicon"
                         [ngClass]="{'glyphicon-chevron-down': grouped?.isOpen, 'glyphicon-chevron-right': !grouped?.isOpen}"></i>
@@ -43,7 +54,7 @@
                   <accordion-group #companion [panelClass]="customClass">
                     <div accordion-heading>
                       <div class="accordion-heading" accordion-heading>
-                        Additional components recommended by Openshift IO
+                        Additional components suggested by Analytics
                       </div>
                       <i class="pull-right accordion-indicator float-xs-right glyphicon"
                         [ngClass]="{'glyphicon-chevron-down': companion?.isOpen, 'glyphicon-chevron-right': !companion?.isOpen}"></i>

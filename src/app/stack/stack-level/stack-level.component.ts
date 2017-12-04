@@ -28,6 +28,7 @@ export class StackLevelComponent {
         if (this.userStack) {
             this.handleLicenseInformation(this.userStack);
             this.handleSecurityInformation(this.userStack);
+            console.log(this.securityInfo);   
         }
         if (this.outliers) {
             this.handleStatistics(this.outliers);
@@ -37,7 +38,7 @@ export class StackLevelComponent {
     public handleFilter(filterBy: any): void {
         this.changeFilter.emit(filterBy);
     }
-
+    
     private handleStatistics(outliers: any): void {
         this.stackLevelOutliers = outliers;
     }
@@ -56,8 +57,10 @@ export class StackLevelComponent {
         let security: Array<any> = [];
         let temp: Array<any> = [];
         debugger;
+        console.log(dependencies)
         dependencies.forEach((dependency) => {
             security = dependency.security;
+            console.log(security && security.length);
             if (security && security.length > 0) {
                 let max: any = security.reduce((a, b) => {
                     return parseFloat(a['CVSS']) < parseFloat(b['CVSS']) ? b : a;
@@ -68,6 +71,7 @@ export class StackLevelComponent {
                 });
             }
         });
+        console.log(temp.length);
         if (temp.length > 0) {
             let final: any = temp.reduce((a, b) => {
                 return parseFloat(a['cve']['CVSS']) < parseFloat(b['cve']['CVSS']) ? b : a;
@@ -93,6 +97,8 @@ export class StackLevelComponent {
                 iconClass: iconClass,
                 displayClass: displayClass
             };
+            console.log(this.securityInfo);
+            console.log("hftjygjygjyg");
         }
     }
 

@@ -11,9 +11,12 @@ import {TableFilter} from '../utils/table-filter.pipe';
 import {ToastNotificationComponent} from '../toast-notification/toast-notification.component';
 // import {TableOrderByPipe} from '../utils/table-orderby.pipe';
 
+import {ChartModule} from '../utils/chart/chart.module' ;
+
 @NgModule({
     imports: [
         CommonModule,
+        ChartModule,
         TooltipModule.forRoot()
     ],
     declarations: [

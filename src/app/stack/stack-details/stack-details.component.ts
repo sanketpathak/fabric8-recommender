@@ -40,6 +40,8 @@ export class StackDetailsComponent implements OnChanges {
 
     public componentFilterBy: string = '';
     public customClass: string = 'accordion-custom';
+    public customClass1: string = 'accordion-custom1';
+    
     public analysis: any = {};
 
 
@@ -193,14 +195,16 @@ export class StackDetailsComponent implements OnChanges {
                         debugger;
                         this.tabs.push({
                             title: r.manifest_file_path,
+                            // title: 'file1',
                             content: r,
                             index: index
                         });
                         this.recommendationsArray.push(r.recommendation);
                     });
-                    this.modalHeader = 'Updated just now';
+                    this.modalHeader = 'Manifest files : ';
                     this.dataLoaded = true;
                     this.tabSelection(this.tabs[0]);
+                    console.log(this.tabs);                            
                 }
             });
         } else {

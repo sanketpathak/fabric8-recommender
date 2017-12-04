@@ -1,5 +1,4 @@
-import {Component, Input, OnChanges} from '@angular/core';
-
+import { Component, Input, OnChanges } from '@angular/core';
 
 import { Observable } from 'rxjs/Observable';
 import { Space, Contexts } from 'ngx-fabric8-wit';
@@ -15,6 +14,7 @@ import { AddWorkFlowService } from '../stack-details/add-work-flow.service';
 })
 
 export class ComponentLevelComponent implements OnChanges {
+    [x: string]: any;
 
     @Input() component: any;
     @Input() isCompanion: boolean;
@@ -52,12 +52,78 @@ export class ComponentLevelComponent implements OnChanges {
 
     private spaceName: string;
     private userName: string;
-
+    public showtd: Array<boolean> = [false];
+    public symbol: Array<string> =Array(this.dependenciesList.length).fill('fa fa-angle-right');//['fa fa-angle-right'];
+    public trial: any;
+    public d1: any;
+    public d2: any;
+    public o1: any;
+    public o2: any;
+    public c1: any;
+    public contributor: string;
+    public forkcount: string;
+    public alt_comp: boolean = true;
+    private searchInput : string = "";
 
     constructor(
         private addWorkFlowService: AddWorkFlowService,
         private context: Contexts
     ) {
+        // this.c1 = {
+        //     pattern: ['blue', 'orange','green']
+        //   }
+
+        this.d1 = {
+            rows: [
+                ['DR', 'CO', 'FO'],
+                [30 , 20, 10],
+              ],
+            type: 'bar'
+        };
+
+        this.c1 = {
+            axis: {
+                rotated: true,
+            },
+            // legend: {
+            //     show: true
+            // }
+        };
+
+        this.o1 = {
+
+            // bar: {
+            //     width: {
+            //         ratio: 0.5 // this makes bar width 50% of length between ticks
+            //     },
+            //     // or
+            //     //width: 100 // this makes bar width 100px
+            //     axis: {
+            //         rotated: true,
+            //         x: {
+            //             categories: ['Category 1', 'Category 2', 'Category 3'],
+            //         }
+            //     },
+            //     pattern: ['blue', 'orange','green']
+            // }
+            size: {
+                width: 370,
+                height: 170,
+            },
+            data: {
+                // xs: {
+                //   data1: 'x1',
+                //   data2: 'x2',
+                //   data3: 'x3',
+                // }
+              },
+            color: {
+                pattern: ['#0000FF','#e27602','#028802']
+            },
+
+        }
+
+
         this.messages = {
             'title': 'Recommendations',
             'sub_title': {
@@ -105,7 +171,7 @@ export class ComponentLevelComponent implements OnChanges {
         };
 
         this.filters = [{
-            name: 'All',
+            name: 'Name',
             identifier: 'reset'
         }, {
             name: 'Usage Outliers',
@@ -187,6 +253,14 @@ export class ComponentLevelComponent implements OnChanges {
             element.classList.add('open');
         }
         event.preventDefault();
+        console.log(element);
+        console.log(field);
+    }
+
+    public filter_by_name(input: any) {
+        this.searchInput = input;
+        console.log(this.searchInput);
+        console.log(this.searchInput.length);
     }
 
     /*
@@ -198,10 +272,10 @@ export class ComponentLevelComponent implements OnChanges {
         let message: string = '';
         let codebaseobj: any = {
             codebase: {
-              'repository': 'Test_Repo',
-              'branch': 'task-1234',
-              'filename': this.component['manifestinfo'],
-              'linenumber': 1
+                'repository': 'Test_Repo',
+                'branch': 'task-1234',
+                'filename': this.component['manifestinfo'],
+                'linenumber': 1
             }
         };
 
@@ -267,8 +341,8 @@ export class ComponentLevelComponent implements OnChanges {
         if (dependency.license_analysis &&
             dependency.license_analysis.licensestatus &&
             (dependency.license_analysis.licensestatus.toLowerCase() === 'outlier' ||
-            dependency.license_analysis.licensestatus.toLowerCase() === 'reallyunknown' ||
-            dependency.license_analysis.licensestatus.toLowerCase() === 'licenseconflict')) {
+                dependency.license_analysis.licensestatus.toLowerCase() === 'reallyunknown' ||
+                dependency.license_analysis.licensestatus.toLowerCase() === 'licenseconflict')) {
             return false;
         }
         return true;
@@ -321,12 +395,12 @@ export class ComponentLevelComponent implements OnChanges {
         let rows = document.getElementsByClassName(id);
         let len: number = rows.length;
         if (isCollapsed) {
-            for (let i: number = 0; i < len; ++ i) {
+            for (let i: number = 0; i < len; ++i) {
                 if (rows[i].classList.contains('collapse'))
                     rows[i].classList.remove('collapse');
             }
         } else {
-            for (let i: number = 0; i < len; ++ i) {
+            for (let i: number = 0; i < len; ++i) {
                 rows[i].classList.add('collapse');
             }
         }
@@ -370,14 +444,15 @@ export class ComponentLevelComponent implements OnChanges {
                     class: 'medium',
                     order: 6
                 },*/ {
-                    name: 'OSIO Usage Outlier',
+                    // name: 'OSIO Usage Outlier',
+                    name: 'Usage outliers',
                     class: 'small',
                     order: 6
                 }, {
                     name: 'Liscense Issues',
                     class: 'small',
                     order: 7
-                },{
+                }, {
                     name: 'Liscenses',
                     class: 'medium',
                     order: 8
@@ -394,13 +469,14 @@ export class ComponentLevelComponent implements OnChanges {
                     class: 'medium',
                     order: 9
                 }, {
-                    name: 'Categories',
+                    name: 'Tags',
                     class: 'medium',
                     order: 10
-                },/* {
-                     name: 'Action',
-                     class: 'small'
-                 }*/
+                }, {
+                    name: 'Action',
+                    class: 'small',
+                    order: 11
+                }
             ];
 
             if (this.isCompanion) {
@@ -423,7 +499,7 @@ export class ComponentLevelComponent implements OnChanges {
                 }
                 if (this.licenseAnalysis.status &&
                     (this.licenseAnalysis.status.toLowerCase() === 'unknown' ||
-                    this.licenseAnalysis.status.toLowerCase() === 'componentconflict') &&
+                        this.licenseAnalysis.status.toLowerCase() === 'componentconflict') &&
                     this.licenseAnalysis.unknown_licenses) {
                     if (this.licenseAnalysis.unknown_licenses.really_unknown.length) {
                         dependency = this.checkIfReallyUnknownLicense(dependency);
@@ -433,6 +509,7 @@ export class ComponentLevelComponent implements OnChanges {
                     }
                 }
                 this.dependenciesList.push(dependency);
+                this.symbol.push('fa fa-angle-right');
                 tempLen = this.dependenciesList.length;
                 if (this.alternate) {
                     this.checkAlternate(eachOne['name'], eachOne['version'], this.dependenciesList, dependency['compId'], dependency['name']);
@@ -480,12 +557,74 @@ export class ComponentLevelComponent implements OnChanges {
         output['categories'] = input['topic_list'];
         output['categories'] = (output['categories'] && output['categories'].length > 0 && output['categories'].join(', ')) || '';
         output['action'] = canCreateWorkItem ? 'Create Work Item' : '';
+        
+        // this.forkcount = this.putNMA(github['forks_count']);
+        // this.contributor = this.putNMA(github['contributors']);
+        /** Graph */
+        output['graph'] = {
+            //  this.forkcount = !github['forks_count'] || github['forks_count'] < 0 ? 0 : github['forks_count'],
+            //  this.contributor = !github['contributors'] || github['contributors'] < 0 ? 0 : github['contributors'];
+            'data': {                
+                rows: [
+                    ['DR', 'CO', 'FO'],
+                    [30 , 20, 10],
+                  ],
+                type: 'bar'
+                },
+                'config': {
+                    axis: {
+                        rotated: true,
+                        },
+                },
+               
+                'options': {
+                    size: {
+                        width: 370,
+                        height: 170,
+                        },
+                    color: {
+                         pattern: ['#0000FF','#e27602','#028802']
+                         },
+                    
+                },
+            };
+           
+            
+        //     this.d1 = {
+        //         rows: [
+        //             ['DR', 'CO', 'FO'],
+        //             [30 , 20, 10],
+        //           ],
+        //         type: 'bar'
+        //     },
+    
+        //     this.c1 = {
+        //         axis: {
+        //             rotated: true,
+        //         },
+        //         // legend: {
+        //         //     show: true
+        //         // }
+        //     },
+    
+        //     this.o1 = {
+        //         size: {
+        //             width: 370,
+        //             height: 170,
+        //         },
+        //         color: {
+        //             pattern: ['#0000FF','#e27602','#028802']
+        //         },
+    
+        //     }
+        // };
         return output;
     }
 
     private checkIfOutlierPackage(dependency: any): any {
         dependency['isLicenseOutlier'] = false;
         this.licenseAnalysis.outlier_packages.forEach((item, index) => {
+            index = index + 1;
             if (dependency.name.toLocaleLowerCase() === item.package.toLocaleLowerCase()) {
                 dependency['isLicenseOutlier'] = true;
                 dependency['license_analysis'] = {
@@ -495,6 +634,27 @@ export class ComponentLevelComponent implements OnChanges {
             }
         });
         return dependency;
+    }
+
+
+    trackByFn(index, item) {
+        //this.trial= index;  or item.id
+        //console.log(this.index);    
+    }
+
+    private toggle_td(i) {
+        // let dependency : any;
+        // this.dependency.sign= 'fa fa-angle-right';   
+        this.trial = i;
+        this.showtd[this.trial] = !this.showtd[this.trial];
+        if (this.showtd[this.trial] === true) {
+            this.symbol[this.trial] = 'fa fa-angle-down';
+        }
+        else {
+            this.symbol[this.trial] = 'fa fa-angle-right';
+        }
+        // console.log(this.i);
+        // console.log(this.forks_count);
     }
 
     private checkIfReallyUnknownLicense(dependency: any): any {
@@ -528,8 +688,11 @@ export class ComponentLevelComponent implements OnChanges {
     private putNA(count: any): any {
         return !count || count < 0 ? '-' : count;
     }
+    private putNMA(count: any): any {
+        return !count || count < 0 ? 0 : count;
+    }
 
-    private checkAlternate (name: string, version: string, list: Array<any>, parentId: string, parentName: string) {
+    private checkAlternate(name: string, version: string, list: Array<any>, parentId: string, parentName: string) {
         if (this.alternate && this.alternate.length > 0) {
             let recom: Array<ComponentInformationModel> = this.alternate.filter((a) => a.replaces[0].name === name && a.replaces[0].version === version);
             recom.forEach(r => {
@@ -550,11 +713,11 @@ export class ComponentLevelComponent implements OnChanges {
         }
     }
 
-     /*
-     *  getWorkItemData - Takes nothing, returns Object
-     *  It returns the predefined JSON structure to be sent as an input
-     *  for work item creation request.
-     */
+    /*
+    *  getWorkItemData - Takes nothing, returns Object
+    *  It returns the predefined JSON structure to be sent as an input
+    *  for work item creation request.
+    */
     private getWorkItemData(): any {
         let workItemData = {
             'data': {
@@ -588,18 +751,18 @@ export class ComponentLevelComponent implements OnChanges {
         let newItem: any; //, workItem: any;
         newItem = this.getWorkItemData();
         //for (let i: number = 0; i < length; ++i) {
-            //if (workItems[i]) {
-                //workItem = workItems[i];
-                // TODO: Handle the case of sending multiple work items concurrently
-                // once the API Payload is properly set at the receiving end.
-                if (newItem) {
-                    newItem.data.attributes['system.title'] = workItem['title'];
-                    newItem.data.attributes['system.description'] = workItem['description'];
-                    newItem.data.attributes['system.codebase'] = workItem['codebase'];
-                    newItem.data.attributes['system.description.markup'] = workItem['markup'];
-                    newItem.key = workItem['key'];
-                }
-           // }
+        //if (workItems[i]) {
+        //workItem = workItems[i];
+        // TODO: Handle the case of sending multiple work items concurrently
+        // once the API Payload is properly set at the receiving end.
+        if (newItem) {
+            newItem.data.attributes['system.title'] = workItem['title'];
+            newItem.data.attributes['system.description'] = workItem['description'];
+            newItem.data.attributes['system.codebase'] = workItem['codebase'];
+            newItem.data.attributes['system.description.markup'] = workItem['markup'];
+            newItem.key = workItem['key'];
+        }
+        // }
         //}
 
         let workFlow: Observable<any> = this.addWorkFlowService.addWorkFlow(newItem);
@@ -620,10 +783,10 @@ export class ComponentLevelComponent implements OnChanges {
         });
     }
 
-     /**
-     * displayWorkItemResponse - takes a message string and returns nothing
-     * Displays the response received from the creation of work items
-     */
+    /**
+    * displayWorkItemResponse - takes a message string and returns nothing
+    * Displays the response received from the creation of work items
+    */
     private displayWorkItemResponse(url: string, id: any): void {
         let notification = {
             iconClass: '',

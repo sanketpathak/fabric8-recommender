@@ -1,16 +1,28 @@
 @import (reference) '../../../assets/stylesheets/shared/main.less';
 
 .stack-report {
-  .stack-reports-btn { cursor: pointer; }
+  .stack-reports-btn {
+    cursor: pointer;
+    padding: 0px;
+  }
   .modal-width-class { width: 95%; }
   .accordion-indicator {
     top: unset;
     margin-left: 10px;
   }
+  .nav.nav-tabs {
+    background: #000;
+  }
   .active-menu-item {
     .nav-link {
+      background: #000;
+      color: #fff;
+      border-bottom: 2px solid white;
       &.active {
-        color: #000;
+        color: rgb(28, 150, 250);
+        background: #000;
+        border-color: rgba(0, 0, 0, 0);
+        border-bottom: 2px solid rgb(28, 150, 250);
         font-weight: bold;
       }
     }
@@ -44,30 +56,41 @@
   }
   .accordion-custom {
     cursor: pointer;
+    background: #fff;
+    color: #000;
+  }
+  .accordion-custom1 {
+    cursor: pointer;
     background: #000;
     color: #fff;
   }
   .card.accordion-custom .card-header {
     // background: #6fc0f9;
-    color: @color-pf-white;
+    background-color: @color-pf-white;
     cursor: pointer;
-    .accordion-heading { float: left; }
+    .accordion-heading {
+      float: left;
+      background-color: @color-pf-white;
+      color: @color-pf-black;
+    }
 
-    .accordion-heading1 {
+    .accordion-heading-1 {
+      // display: none;
       background-color: #0a0a0a;
       color: @color-pf-white;
       float: left;
+      border-top-color: black;
     }
 
     .accordion-sub-heading1 {
       float: right;
-      background-color: #0a0a0a;
+      background-color: #fff;
       color: @color-pf-white;
     }
 
     .accordion-sub-heading {
       float: right;
-      color: @color-pf-black;
+      color: @color-pf-white;
     }
     &:after {
       content: '';

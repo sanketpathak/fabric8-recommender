@@ -20,8 +20,8 @@
                            <span>Total</span>
                            </p>
                            <p class="details">
-                           <span class="card-pf-aggregate-status-notification"><a href="#"><span class="pficon pficon-ok"></span>{{userStack && userStack.analyzed_dependencies && userStack.analyzed_dependencies.length}}</a>Analysed Packages</span>
-                           <span class="card-pf-aggregate-status-notification"><a href="#"><span class="pficon pficon-ok"></span>{{userStack && userStack.unknown_dependencies && userStack.unknown_dependencies.length}}</a>Unknown Packages</span>
+                           <span class="card-pf-aggregate-status-notification"><a href="#"><span class="pficon pficon-ok"></span>{{userStack && userStack.analyzed_dependencies && userStack.analyzed_dependencies.length}}</a>Analyzed Packages</span>
+                           <span class="card-pf-aggregate-status-notification"><a href="#"><span class="pficon pficon-help icon-g"></span>{{userStack && userStack.unknown_dependencies && userStack.unknown_dependencies.length}}</a>Unknown Packages</span>
                            </p>
                        </div>
                    </div>
@@ -42,7 +42,7 @@
                <!--<div>-->
                <div class="card-pf card-pf-accented card-pf-aggregate-status">
                    <h2 class="card-pf-title">
-                       <a href="#"><span class="fa fa-shield"></span><span class="card-pf-aggregate-status-count">Security Alert</span></a>
+                       <a href="#"><span class="fa fa-shield"></span><span class="card-pf-aggregate-status-count">Security Issues</span></a>
                    </h2>
                    <div class="card-pf-body">
                        <div class="stat-content security">
@@ -51,8 +51,8 @@
                             <span>Total</span>
                            </p>
                            <p class="details">
-                            <span class="card-pf-aggregate-status-notification"><a href="#"><span class="fa fa-shield"></span>02</a> Critical Issues</span>
-                            <span class="card-pf-aggregate-status-notification"><a href="#"><span class="fa fa-shield"></span>02</a>Important Issues</span>
+                            <span class="card-pf-aggregate-status-notification"><a href="#"><span class="fa fa-shield icon-r"></span>02</a> Critical Issues</span>
+                            <span class="card-pf-aggregate-status-notification"><a href="#"><span class="fa fa-shield icon-y"></span>02</a>Important Issues</span>
                            </p>
                        </div>
                    <!--</div>
@@ -70,16 +70,16 @@
 						<span class="cvss-indication card-pf-aggregate-status-notification"><b>{{securityInfo.cve && securityInfo.cve.CVSS}} out of</b> 10</span>
 					</div>
                 </div>
-                abc{{securityInfo}}
+                {{securityInfo}}
 				<!--<div class="progress">-->
 				<!--added inline style here to handle the dynamic value of cvss score for the progress bar-->
                 <!--  --> 
-                <div class="progress-bar" role="progressbar"
+                <!-- <div class="progress-bar" role="progressbar"
 								[ngStyle]="{'width': securityInfo.percentage +'%'}"
 								[ngClass]="securityInfo.displayClass"
 								data-toggle="tooltip" data-placement="top" 
 						title="{{securityInfo.cve && securityInfo.cve.CVSS}} out of 10">
-				</div>
+				</div> -->
 				</div>
 				</div>
            </div>
@@ -113,7 +113,7 @@
          </div>-->
          <div class="card-pf card-pf-accented card-pf-aggregate-status">
              <h2 class="card-pf-title">
-                 <a href="#"><span class="fa pficon-zone"></span><span class="card-pf-aggregate-status-count">Usage</span></a>
+                 <a href="#"><span class="fa pficon-zone"></span><span class="card-pf-aggregate-status-count">Usage Outliers</span></a>
              </h2>
              <div class="card-pf-body">
                  <div class="stat-content metric-desc">
@@ -121,8 +121,13 @@
                        <span class="total"><a href="#">{{stackLevelOutliers && stackLevelOutliers.usage && stackLevelOutliers.usage.length}}</a></span>
                        <span>Total</span>
                      </p>
-                     <p class="details">
-                       <span class="card-pf-aggregate-status-notification"><a href="#"><span class="fa "></span></a> Rarely used packages in your application</span>                     </p>
+                     <p class="details" *ngIf="!(stackLevelOutlliers && stackLevelOutlliers.usage && stackLevelOutlliers.usage.length )">
+                            <!-- {{stackLevelOutliers && stackLevelOutliers.usage && stackLevelOutliers.usage.length === 0}} -->
+                       <span class="card-pf-aggregate-status-notification"><a href="#"><span class="fa "></span></a> Components not used together</span>
+                    </p>
+                    <p class="details" *ngIf="(stackLevelOutlliers && stackLevelOutlliers.usage && stackLevelOutlliers.usage.length )">
+                            <span class="card-pf-aggregate-status-notification"><a href="#"><span class="fa "></span></a> All the components in your stack work well with each other</span>
+                         </p>
                  </div>
              </div>
              <!-- <div class="metric">
@@ -142,22 +147,23 @@
       <div>-->
           <div class="card-pf card-pf-accented card-pf-aggregate-status">
               <h2 class="card-pf-title">
-                  <a href="#"><span class="fa pficon-on-running"></span><span class="card-pf-aggregate-status-count">Licenses</span></a>
+                  <a href="#"><span class="fa pficon-on-running"></span><span class="card-pf-aggregate-status-count">License Issues</span></a>
               </h2>
               <div class="card-pf-body">
                 <div class="stat-content">   
                   <p>
-                   <span class="total"><a href="#">{{licenseAnalysis.stackLicenseText}}</a>6</span><span>Total</span>
+                   <span class="total"><a href="#">{{licenseAnalysis.stackLicenseText}}</a>{{(licenseAnalysis.licenseReallyUnknownCount) + (licenseAnalysis.licenseComponentConflictsCount)}}</span><span>Total</span>
                   </p>
                   <p class="details">
-                   <span class="card-pf-aggregate-status-notification"><a href="#"><span class="pficon-on-running"></span>02</a>Unknown Licenses</span>
-                   <span class="card-pf-aggregate-status-notification"><a href="#"><span class="pficon-on-running"></span>02</a>Conflict Licenses</span>
-                   <span class="card-pf-aggregate-status-notification"><a href="#"><span class="pficon-on-running"></span>02</a>Outdated Licenses</span>
+                   <!-- <span class="card-pf-aggregate-status-notification"><a href="#"><span class="pficon-on-running"></span>{{licenseAnalysis.status}}</a>->Status</span>                         -->
+                   <span class="card-pf-aggregate-status-notification"><a href="#"><span class="pficon-on-running icon-g"> </span>{{licenseAnalysis.licenseReallyUnknownCount}}</a> Unknown Licenses</span>
+                   <span class="card-pf-aggregate-status-notification"><a href="#"><span class="pficon-on-running icon-y"> </span>{{licenseAnalysis.licenseComponentConflictsCount}}</a> Conflict Licenses</span>
+                   <span class="card-pf-aggregate-status-notification"><a href="#"><span class="pficon-on-running icon-r"> </span>0 </a> Outdated Licenses</span>
                   </p>
-                </div>
-              </div>
+                
+
               <!--</div>-->
-      </div>
+      
       <div class="stat-content license-area" *ngIf="licenseAnalysis && licenseAnalysis.status.toLowerCase() !== 'failure' && licenseAnalysis && licenseAnalysis.status.toLowerCase() !== 'nolicensedata'">
           <div class="stack-license-text flex-3" *ngIf="licenseAnalysis.status.toLowerCase() !== 'successful'">
               <div class="metric-desc">
@@ -182,7 +188,7 @@
               </div>
               <div class="metric">
                   <span>
-                      {{licenseAnalysis.licenseStackConflictsCount}}
+                        <span class="card-pf-aggregate-status-notification"><a href="#"><span class="pficon-on-running"></span>{{licenseAnalysis.licenseStackConflictsCount}}</a></span>
                   </span>
               </div>
           </div>
@@ -226,34 +232,34 @@
               </ng-template>
           </div>
           <div class="unknown-license flex-2" *ngIf="licenseAnalysis && licenseAnalysis.status.toLowerCase() === 'unknown'">
-              <div class="metric-desc">
+              <!-- <div class="metric-desc">
                   Status
               </div>
               <div class="metric">
                   <span>
                       {{licenseAnalysis.status}}
                   </span>
-              </div>
+              </div> -->
           </div>
           <div class="unknown-license flex-1" *ngIf="licenseAnalysis && licenseAnalysis.status.toLowerCase() === 'unknown'">
-              <div class="metric-desc">
+              <!-- <div class="metric-desc">
                   Unknown
               </div>
               <div class="metric">
                   <span>
                       {{licenseAnalysis.licenseReallyUnknownCount}}
                   </span>
-              </div>
+              </div> -->
           </div>
           <div class="unknown-license flex-3" *ngIf="licenseAnalysis && licenseAnalysis.status.toLowerCase() === 'unknown'">
-              <div class="metric-desc">
+              <!-- <div class="metric-desc">
                   Conflict <strong>within</strong> a Component
               </div>
               <div class="metric">
                   <span>
                       {{licenseAnalysis.licenseComponentConflictsCount}}
                   </span>
-              </div>
+              </div> -->
           </div>
           <div class="stat-content center-text" *ngIf="licenseAnalysis && licenseAnalysis.status && licenseAnalysis.status.toLowerCase() === 'failure'">
               Could not get license data for this stack. This may be due to some failure.
@@ -262,6 +268,9 @@
               No license data available.
           </div>
       </div>
+    </div>
+</div>
+    </div>
       <!--</div>-->
     </div>
     </div>

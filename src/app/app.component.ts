@@ -8,7 +8,9 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 
 export class AppComponent implements OnInit {
   public stackUrl: string =
-    'https://recommender.api.openshift.io/api/v1/stack-analyses/3e13b237cade46c888aa3a1dba06696d';
+    // 'https://recommender.api.openshift.io/api/v1/stack-analyses/3e13b237cade46c888aa3a1dba06696d';
+    'https://recommender.api.openshift.io/api/v1/stack-analyses/48d602148d154afcb77e0f42a1b9b235';
+    
 
   constructor() {}
   ngOnInit(): void {
